@@ -98,8 +98,7 @@ if __name__ == "__main__":
     for root, dirs, files in os.walk(r'./raw'):
         for file in files:
             if file.endswith('.jpg'):
-                jpg_file = os.path.join(root, file)
                 a.添加入队列(os.path.join(root, file),os.path.join('./new', file))
 
 
-    tqdm(线程池.imap(a.处理, a.队列), total=len(a.队列), desc='进度')
+    list(tqdm(线程池.imap(a.处理, a.队列), total=len(a.队列), desc='进度'))
