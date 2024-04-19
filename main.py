@@ -1,130 +1,105 @@
-import argparse
+﻿import os
 from typing import List, Tuple
 import PIL.Image as Image
 import PIL.ImageDraw as ImageDraw
 import PIL.ImageFont as ImageFont
 from tqdm import tqdm
+from multiprocessing import Pool
 
 
 class AsciIt:
-    def __init__(self) -> None:
-        # 用于生成的ASCII字符
-        self.ascii = list(
-            '@WMwPmBQRK&DNGOoEHk%8#A9SUX$Zbdz60gpqCh45Vae2nsFu3xYTcyLv?7Jft=1<[]r{}>Iijl!+()^|/\\"~*\'-:;,.`_ ')
-        # 用于生成的字体     影响ASCII字体排序,应调用self.resort()
-        self.font = "arialbd.ttf"
-        self.font_size = 8
+    def __init__(self, 字体: str = "arialbd.ttf", 字体大小: int = 8, 字符集: str = '@WMwPmBQRK&DNGOoEHk%8#A9SUX$Zbdz60gpqCh45Vae2nsFu3xYTcyLv?7Jft=1<[]r{}>Iijl!+()^|/\\"~*\'-:;,.`_ ', 颜色: bool = False, 缩放: float = 1.0) -> None:
+        self.队列: List[Tuple[str, str]] = []
+        self.字体 = 字体
+        self.字体大小 = 字体大小
+        self.字符集 = self.生成排序后的ascii字符(字符集)
+        self.是否彩色 = 颜色
+        self.缩放 = 缩放
 
-        self.image_ascii: List[str] = []
-        self.image_color: List[Tuple[int, int, int]] = []
+    def 添加入队列(self, 图片路径: str, 输出路径: str) -> None:
+        self.队列.append((图片路径, 输出路径))
 
-    def add(self, image_path: str, scale: float) -> None:
-        """
-        参数:
-            image_path:图片路径
-            scale:缩放比例X
-        """
-        image = Image.open(image_path)
+    def 处理(self, paths: Tuple[str, str]) -> None:
+        图片路径, 输出路径 = paths
+        image = Image.open(图片路径)
         width, height = image.size
-        image = image.resize((int(width * scale), int(height * scale)))
-        self.image: Image.Image = image
-        self.width, self.height = image.size
+        image = image.resize((int(width * self.缩放), int(height * self.缩放)))
+        字符序列 = self.字符(image)
+        if self.是否彩色:
+            色彩序列 = self.色彩(image)
+        else:
+            色彩序列 = [(0, 0, 0)]
+        self.保存图片(image, 字符序列, 色彩序列, 输出路径)
 
-    def asciit(self, output_path: str, color: bool = False) -> None:
-        """
-        参数:
-            output_path:输出路径
-            color:是否包含颜色
-        """
-        self.color = color
-        self.generate_ascii()
-        if self.color:
-            self.generate_color()
-        self.save_image(output_path)
+    def 字符(self, Pillow对象: Image.Image) -> List[str]:
+        宽, 高 = Pillow对象.size
+        字符序列: List[str] = []
+        for y in range(高):
+            for x in range(宽):
+                color = Pillow对象.getpixel((x, y))
+                gray_value = color[0] * 0.30 + color[1] * 0.59 + color[2] * 0.11
+                char_index = int(gray_value / 255 * (len(self.字符集) - 1))
+                if char_index >= len(self.字符集):
+                    char_index = len(self.字符集) - 1
+                字符序列.append(self.字符集[char_index])
+        return 字符序列
 
-    def generate_ascii(self) -> None:
-        bar = tqdm(desc='生成ASCII字符中', total=self.height*self.width)
-        for y in range(self.height):
-            row = ""
-            for x in range(self.width):
-                color = self.image.getpixel((x, y))
-                gray_value = color[0]*0.30+color[1]*0.59+color[2]*0.11
-                char_index = int(gray_value / 255 * (len(self.ascii) - 1))
-                if char_index >= len(self.ascii):
-                    char_index = len(self.ascii) - 1
-                else:
-                    row += self.ascii[char_index]
-                self.image_ascii.append(self.ascii[char_index])
-                bar.update(1)
-        bar.close()
+    def 色彩(self, Pillow对象: Image.Image) -> List[Tuple[int, int, int]]:
+        宽, 高 = Pillow对象.size
+        色彩序列: List[Tuple[int, int, int]] = []
+        for y in range(高):
+            for x in range(宽):
+                color = Pillow对象.getpixel((x, y))
+                色彩序列.append((color[0], color[1], color[2]))
+        return 色彩序列
 
-    def generate_color(self) -> None:
-        bar = tqdm(desc='生成ASCII颜色中', total=self.height*self.width)
-        for y in range(self.height):
-            row = ""
-            for x in range(self.width):
-                color = self.image.getpixel((x, y))
-                gray_value = color[0]*0.30+color[1]*0.59+color[2]*0.11
-                char_index = int(gray_value / 255 * (len(self.ascii) - 1))
-                if char_index >= len(self.ascii):
-                    char_index = len(self.ascii) - 1
-                else:
-                    row += self.ascii[char_index]
-                self.image_color.append((color[0], color[1], color[2]))
-                bar.update(1)
-        bar.close()
-
-    def save_image(self, output_path: str) -> None:
-        bar = tqdm(desc='保存图片中     ', total=self.height*self.width)
-        image = Image.new('RGB', ((self.width * self.font_size),
-                          (self.height * self.font_size)), color='white')
+    def 保存图片(self, Pillow对象: Image.Image, 字符序列: List[str], 色彩序列: List[Tuple[int, int, int]], 输出路径: str) -> None:
+        宽, 高 = Pillow对象.size
+        image = Image.new('RGB', ((宽 * self.字体大小), (高 * self.字体大小)), color='white')
         draw = ImageDraw.Draw(image)
-        font = ImageFont.truetype(self.font, self.font_size)
-        for i in range(self.height):
-            for j in range(self.width):
-                if self.color:
-                    draw.text((j * self.font_size, i * self.font_size),
-                              self.image_ascii[i * self.width + j], font=font, fill=self.image_color[i * self.width + j])
+        font = ImageFont.truetype(self.字体, self.字体大小)
+        for i in range(高):
+            for j in range(宽):
+                if self.是否彩色:
+                    draw.text((j * self.字体大小, i * self.字体大小), 字符序列[i * 宽 + j], font=font, fill=色彩序列[i * 宽 + j])
                 else:
-                    draw.text((j * self.font_size, i * self.font_size),
-                              self.image_ascii[i * self.width + j], font=font, fill='black')
-                bar.update(1)
-        image.save(output_path)
-        bar.close()
+                    draw.text((j * self.字体大小, i * self.字体大小), 字符序列[i * 宽 + j], font=font, fill='black')
+        image.save(输出路径)
 
-    def resort(self) -> None:
-        font_size = self.font_size
-        image = Image.new("L", (font_size * 16, font_size * 16), color="white")
+    def 生成排序后的ascii字符(self, 字符集: str) -> List[str]:
+        字体大小 = self.字体大小
+        image = Image.new("L", (字体大小 * 16, 字体大小 * 16), color="white")
         draw = ImageDraw.Draw(image)
-        font = ImageFont.truetype(self.font, font_size)
+        font = ImageFont.truetype(self.字体, 字体大小)
         char_grayscale_values = {}
-        for i in range(32, 127):
-            char = chr(i)
-            draw.text(((i - 32) % 16 * font_size, (i - 32) // 16 *
-                      font_size), char, font=font, fill="black")
-        for i in range(32, 127):
-            char = chr(i)
-            char_image = image.crop(((i - 32) % 16 * font_size, (i - 32) // 16 * font_size, ((
-                i - 32) % 16 + 1) * font_size, ((i - 32) // 16 + 1) * font_size))
-            grayscale_value = sum(char_image.getdata(   # type: ignore
-            )) // (font_size * font_size)
+
+        for i in range(len(字符集)):
+            char = 字符集[i]
+            draw.text((i % 16 * 字体大小, i // 16 * 字体大小), char, font=font, fill="black")
+        for i in range(len(字符集)):
+            char = 字符集[i]
+            char_image = image.crop((i % 16 * 字体大小, i // 16 * 字体大小, (i % 16 + 1) * 字体大小, (i // 16 + 1) * 字体大小))
+            grayscale_value = sum(char_image.getdata()) // (字体大小 * 字体大小)# type: ignore
             char_grayscale_values[char] = grayscale_value
+
         sorted_chars = sorted(char_grayscale_values.items(),
                               key=lambda x: x[1], reverse=False)
-        char_list = []
+        char_list: List[str] = []
         for char, _ in sorted_chars:
             char_list.append(char)
-        self.ascii = char_list
+        return char_list
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='字符画生成')
-    parser.add_argument('InputPath', help='图片路径')
-    parser.add_argument('OutputPath', help='输出路径')
-    parser.add_argument('scale', help='缩放比例', type=float)
-    parser.add_argument('--color', help='是否使用颜色', action='store_true')
-    args = parser.parse_args()
 
-    a = AsciIt()
-    a.add(args.InputPath, args.scale)
-    a.asciit(args.OutputPath, args.color)
+    线程池=Pool(8)
+    a = AsciIt(缩放=0.1)
+
+    for root, dirs, files in os.walk(r'./raw'):
+        for file in files:
+            if file.endswith('.jpg'):
+                jpg_file = os.path.join(root, file)
+                a.添加入队列(os.path.join(root, file),os.path.join('./new', file))
+
+
+    tqdm(线程池.imap(a.处理, a.队列), total=len(a.队列), desc='进度')

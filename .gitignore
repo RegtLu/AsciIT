@@ -1,0 +1,7 @@
+raw/*
+new/*
+.venv/*
+Pipfile.lock
+raw.mp4
+audio.mp4
+new.mp4
