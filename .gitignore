@@ -1,8 +1,5 @@
-raw/*
-new/*
+cache/*
 .venv/*
 Pipfile
 Pipfile.lock
-raw.mp4
-audio.mp3
-new.mp4
+*.mp4

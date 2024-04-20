@@ -4,29 +4,25 @@ import PIL.Image as Image
 import PIL.ImageDraw as ImageDraw
 import PIL.ImageFont as ImageFont
 from tqdm import tqdm
-import shutil
 from multiprocessing import Pool
 
 
 class AsciIt:
-    def __init__(self, 字体: str = "arialbd.ttf", 字体大小: int = 8, 字符集: str = '@WMwPmBQRK&DNGOoEHk%8#A9SUX$Zbdz60gpqCh45Vae2nsFu3xYTcyLv?7Jft=1<[]r{}>Iijl!+()^|/\\"~*\'-:;,.`_ ', 颜色: bool = False) -> None:
+    def __init__(self, 字体: str = "sarasa-term-sc-nerd-regular.ttf", 字体大小: int = 8, 字符集: str = '@WMwPmBQRK&DNGOoEHk%8#A9SUX$Zbdz60gpqCh45Vae2nsFu3xYTcyLv?7Jft=1<[]r{}>Iijl!+()^|/\\"~*\'-:;,.`_ ', 颜色: bool = False,控制台大小:Tuple[int,int]=(0,0)) -> None:
         self.队列: List[Tuple[str, str]] = []
         self.字体 = 字体
         self.字体大小 = 字体大小
         self.字符集 = self.生成排序后的ascii字符(字符集)
         self.是否彩色 = 颜色
+        self.控制台大小=控制台大小
 
     def 添加入队列(self, 图片路径: str, 输出路径: str) -> None:
         self.队列.append((图片路径, 输出路径))
 
-    def 获取控制台大小(self) -> Tuple[int, int]:
-        columns, lines = shutil.get_terminal_size()
-        return columns, lines
-
     def 处理(self, paths: Tuple[str, str]) -> None:
         图片路径, 输出路径 = paths
         image = Image.open(图片路径)
-        控制台宽度, 控制台高度 = self.获取控制台大小()
+        控制台宽度, 控制台高度 = self.控制台大小
         宽, 高 = image.size
         缩放比例 = min(控制台宽度 / 宽, 控制台高度 / 高)
         image = image.resize((int(宽 * 缩放比例), int(高 * 缩放比例)))
@@ -74,15 +70,3 @@ class AsciIt:
         sorted_chars = sorted(char_grayscale_values.items(), key=lambda x: x[1], reverse=False)
         char_list: List[str] = [char for char, _ in sorted_chars]
         return char_list
-
-
-if __name__ == "__main__":
-    线程池 = Pool(8)
-    a = AsciIt()
-
-    for root, dirs, files in os.walk(r'./raw'):
-        for file in files:
-            if file.endswith('.jpg'):
-                a.添加入队列(os.path.join(root, file), os.path.join('./new', file).replace('.jpg', '.txt'))
-
-    list(tqdm(线程池.imap(a.处理, a.队列), total=len(a.队列), desc='进度'))

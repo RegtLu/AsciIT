@@ -1,7 +1,11 @@
 from os import mkdir
 import shutil
 
-shutil.rmtree('./new/')
-shutil.rmtree('./raw/')
-mkdir('new/')
-mkdir('raw/')
+def delete():
+    try:
+        shutil.rmtree('./cache/')
+    except:
+        pass
+    mkdir('cache')
+    mkdir('cache/raw')
+    mkdir('cache/new')
