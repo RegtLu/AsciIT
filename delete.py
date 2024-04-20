@@ -1,7 +1,10 @@
 from os import mkdir
 import shutil
 
-shutil.rmtree('./new/')
-shutil.rmtree('./raw/')
+try:
+    shutil.rmtree('./new/')
+    shutil.rmtree('./raw/')
+except:
+    pass
 mkdir('new/')
 mkdir('raw/')
