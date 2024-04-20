@@ -1,7 +1,8 @@
 raw/*
 new/*
 .venv/*
+Pipfile
 Pipfile.lock
 raw.mp4
-audio.mp4
+audio.mp3
 new.mp4
