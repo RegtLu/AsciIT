@@ -3,7 +3,7 @@ import PIL.Image as Image
 
 
 class AsciIt:
-    def __init__(self, 字体: str = "sarasa-term-sc-nerd-regular.ttf", 字体大小: int = 8, 字符集: str = '@WMwPmBQRK&DNGOoEHk%8#A9SUX$Zbdz60gpqCh45Vae2nsFu3xYTcyLv?7Jft=1<[]r{}>Iijl!+()^|/\\"~*\'-:;,.`_ ', 颜色: bool = False,控制台大小:Tuple[int,int]=(0,0)) -> None:
+    def __init__(self, 字体: str = "sarasa-term-sc-nerd-regular.ttf", 字体大小: int = 8, 字符集: str = '@%#$?=1!+^|"~*-:.`_', 颜色: bool = False,控制台大小:Tuple[int,int]=(0,0)) -> None:
         self.队列: List[Tuple[str, str]] = []
         self.字体 = 字体
         self.字体大小 = 字体大小
