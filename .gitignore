@@ -3,3 +3,4 @@ cache/*
 Pipfile
 Pipfile.lock
 *.mp4
+__pycache__

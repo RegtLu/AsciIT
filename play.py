@@ -28,7 +28,7 @@ def play(帧率):
 
         current_time = time.time()
         elapsed_time = current_time - start_time
-        expected_next_time = delta_time * (file + 1)
+        expected_next_time = delta_time * (file)
 
         if elapsed_time < expected_next_time:
             time.sleep(expected_next_time - elapsed_time)
@@ -38,3 +38,6 @@ def play(帧率):
     print('\033[?25h')
     end_time = time.time()
     print(f'总时长: {end_time - start_time}s')
+
+if __name__ == "__main__":
+    play(60)
