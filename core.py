@@ -1,10 +1,5 @@
-﻿import os
-from typing import List, Tuple
+﻿from typing import List, Tuple
 import PIL.Image as Image
-import PIL.ImageDraw as ImageDraw
-import PIL.ImageFont as ImageFont
-from tqdm import tqdm
-from multiprocessing import Pool
 
 
 class AsciIt:
@@ -12,7 +7,7 @@ class AsciIt:
         self.队列: List[Tuple[str, str]] = []
         self.字体 = 字体
         self.字体大小 = 字体大小
-        self.字符集 = self.生成排序后的ascii字符(字符集)
+        self.字符集 = 字符集
         self.是否彩色 = 颜色
         self.控制台大小=控制台大小
 
@@ -49,24 +44,3 @@ class AsciIt:
                 for j in range(宽):
                     f.write(字符序列[i * 宽 + j])
                 f.write('\n')
-
-    def 生成排序后的ascii字符(self, 字符集: str) -> List[str]:
-        字体大小 = self.字体大小
-        image = Image.new("L", (字体大小 * 16, 字体大小 * 16), color="white")
-        draw = ImageDraw.Draw(image)
-        font = ImageFont.truetype(self.字体, 字体大小)
-        char_grayscale_values = {}
-
-        for i in range(len(字符集)):
-            char = 字符集[i]
-            draw.text((i % 16 * 字体大小, i // 16 * 字体大小), char, font=font, fill="black")
-        
-        for i in range(len(字符集)):
-            char = 字符集[i]
-            char_image = image.crop((i % 16 * 字体大小, i // 16 * 字体大小, (i % 16 + 1) * 字体大小, (i // 16 + 1) * 字体大小))
-            grayscale_value = sum(char_image.getdata()) // (字体大小 * 字体大小) #type:ignore
-            char_grayscale_values[char] = grayscale_value
-
-        sorted_chars = sorted(char_grayscale_values.items(), key=lambda x: x[1], reverse=False)
-        char_list: List[str] = [char for char, _ in sorted_chars]
-        return char_list

@@ -7,13 +7,15 @@ import play
 import argparse
 import subprocess
 import shutil
+from tqdm import tqdm
+from multiprocessing import Pool
 
 def 获取控制台大小() -> Tuple[int, int]:
     columns, lines = shutil.get_terminal_size()
     return (columns, lines)
 
 def start(控制台大小:Tuple[int,int]):
-    线程池 = core.Pool(8)
+    线程池 = Pool(8)
     AsciIt对象 = core.AsciIt(控制台大小=控制台大小)
 
     for root, dirs, files in os.walk('./cache/raw'):
@@ -21,7 +23,7 @@ def start(控制台大小:Tuple[int,int]):
             if file.endswith('.jpg'):
                 AsciIt对象.添加入队列(os.path.join(root, file), os.path.join('./cache/new', file).replace('.jpg', '.txt'))
 
-    list(core.tqdm(线程池.imap(AsciIt对象.处理, AsciIt对象.队列), total=len(AsciIt对象.队列), desc='进度'))
+    list(tqdm(线程池.imap(AsciIt对象.处理, AsciIt对象.队列), total=len(AsciIt对象.队列), desc='进度'))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='字符化视频')
