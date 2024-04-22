@@ -1,4 +1,5 @@
 ﻿import os
+import sys
 import time
 import playsound
 
@@ -11,33 +12,33 @@ def play(帧率):
         for file in files:
             if file.endswith('.txt'):
                 with open(os.path.join(root, file), 'r', encoding='utf8') as f:
-                    content = f.read()
+                    content = f.read().strip('\n')
                 playlist.append((int(file.strip('.txt')), content))
 
     playlist = sorted(playlist, key=lambda x: x[0])
 
     rate = 帧率
     delta_time = 1 / rate
-    print('\033[?25l')
     os.system('cls')
+    sys.stdout.write('\033[25l')
     start_time = time.time()
 
     playsound.playsound('./cache/audio.mp3',False)
     for file, content in playlist:
-        print(content)
+        sys.stdout.write(content)
 
         current_time = time.time()
         elapsed_time = current_time - start_time
-        expected_next_time = delta_time * (file)
+        expected_next_time = delta_time * file
 
         if elapsed_time < expected_next_time:
             time.sleep(expected_next_time - elapsed_time)
 
-        print('\033[H')
+        sys.stdout.write('\033[H')
 
-    print('\033[?25h')
     end_time = time.time()
+    os.system('cls')
     print(f'总时长: {end_time - start_time}s')
 
 if __name__ == "__main__":
-    play(60)
+    play(30)

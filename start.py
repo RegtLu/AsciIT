@@ -28,11 +28,11 @@ def start(控制台大小:Tuple[int,int]):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='字符化视频')
     parser.add_argument('video_path', type=str, help='视频路径')
-    parser.add_argument('frame_rate', type=float, default=20, help='帧率')
+    parser.add_argument('frame_rate', type=float, default=30, help='帧率')
     args = parser.parse_args()
-    input('缩小控制台(Ctrl+滚轮),按任意键确定控制台大小\n确定后可以重新放大')
     控制台大小=获取控制台大小()
     print(f'控制台大小为: {控制台大小}')
+    ''''''
     print('开始清理缓存')
     delete.delete()
     print('缓存清理完毕')
@@ -45,5 +45,5 @@ if __name__ == "__main__":
     print('开始生成')
     start(控制台大小)
     print('生成完毕')
-    input('缩小控制台(Ctrl+滚轮),按任意键开始播放\n如有变形,请将控制台字体大小修改为长宽相同')
+    input('按任意键开始播放')
     play.play(args.frame_rate)
