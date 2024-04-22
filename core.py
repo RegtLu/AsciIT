@@ -18,7 +18,7 @@ class AsciIt:
         图片路径, 输出路径 = paths
         image = Image.open(图片路径)
         控制台宽度, 控制台高度 = self.控制台大小
-        image = image.resize((控制台宽度-1, 控制台高度-1))
+        image = image.resize((控制台宽度, 控制台高度))
         字符序列 = self.字符(image)
         self.保存图片(image, 字符序列, 输出路径)
 
