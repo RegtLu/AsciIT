@@ -3,7 +3,7 @@ import PIL.Image as Image
 
 
 class AsciIt:
-    def __init__(self, 字体: str = "sarasa-term-sc-nerd-regular.ttf", 字体大小: int = 8, 字符集: str = '@%#$?=1!+^|"~*-:.`_', 颜色: bool = False,控制台大小:Tuple[int,int]=(0,0)) -> None:
+    def __init__(self, 字体: str = "sarasa-term-sc-nerd-regular.ttf", 字体大小: int = 8, 字符集: str = '#@BMRNH0&8$WXDEGOmQ5dgbUKZC69acP3ehAS2qpkVwxv?oItufzn}F4slYJ![]T7i{yL1\\/r*|j()=+<.";~>^:-\'`,_', 颜色: bool = False,控制台大小:Tuple[int,int]=(0,0)) -> None:
         self.队列: List[Tuple[str, str]] = []
         self.字体 = 字体
         self.字体大小 = 字体大小
@@ -18,9 +18,7 @@ class AsciIt:
         图片路径, 输出路径 = paths
         image = Image.open(图片路径)
         控制台宽度, 控制台高度 = self.控制台大小
-        宽, 高 = image.size
-        缩放比例 = min(控制台宽度 / 宽, 控制台高度 / 高)
-        image = image.resize((int(宽 * 缩放比例), int(高 * 缩放比例)))
+        image = image.resize((控制台宽度-1, 控制台高度-1))
         字符序列 = self.字符(image)
         self.保存图片(image, 字符序列, 输出路径)
 

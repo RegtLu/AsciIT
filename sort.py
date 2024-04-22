@@ -8,12 +8,12 @@ image = Image.new("L", (font_size * 16, font_size * 16), color="white")
 draw = ImageDraw.Draw(image)
 font = ImageFont.truetype(font_path, font_size)
 char_grayscale_values = {}
-字符串='@%#$?=1!+^|"~*-:.`_ '
-
+字符串='1234567890-=`qwertyuiop[]asdfghjkl;\'\\zxcvbnm,./!~@#$%^&*()_+}{:"|?><QAWSZEXDCRVFBTGYHNUMJKILOP'
+print(len(字符串))
 for i in range(len(字符串)):
     char = 字符串[i]
-    x = (i - 32) % 16 * font_size
-    y = (i - 32) // 16 * font_size
+    x = i % 16 * font_size
+    y = i // 16 * font_size
     draw.text((x, y), char, font=font, fill="black")
     char_image = image.crop((x, y, x + font_size, y + font_size))
     grayscale_value = sum(char_image.getdata()) // (font_size * font_size) #type:ignore
