@@ -1,5 +1,4 @@
 import argparse
-import os
 import shutil
 
 def delete(path:str):

@@ -2,30 +2,30 @@ import PIL.ImageFont as ImageFont
 import PIL.ImageDraw as ImageDraw
 import PIL.Image as Image
 
-font_path = "sarasa-term-sc-nerd-regular.ttf"
-font_size = 16
+字体路径 = "sarasa-term-sc-nerd-regular.ttf"
+字体大小 = 16
 
-char_grayscale_values = {}
-ascii_chars = ''.join(chr(i) for i in range(32, 127))
-image = Image.new("L", (font_size*len(ascii_chars), font_size), color="black")
-draw = ImageDraw.Draw(image)
-font = ImageFont.truetype(font_path, font_size)
+灰度列表 = {}
+ascii列表 = ''.join(chr(i) for i in range(32, 127))
+image = Image.new("L", (字体大小*len(ascii列表), 字体大小), color="black")
+绘图 = ImageDraw.Draw(image)
+字体 = ImageFont.truetype(字体路径, 字体大小)
     
-for i in range(len(ascii_chars)):
-    char = ascii_chars[i]
-    x = i*font_size
+for i in range(len(ascii列表)):
+    字符 = ascii列表[i]
+    x = i*字体大小
     y = 0
     
     # 在图像上绘制字符
-    draw.text((x, y), char, font=font, fill="white")
+    绘图.text((x, y), 字符, font=字体, fill="white")
     
     # 截取字符图像
-    char_image = image.crop((x, y, x + font_size, y + font_size))
+    字符图像 = image.crop((x, y, x + 字体大小, y + 字体大小))
     # 计算字符的平均灰度值
-    grayscale_value = sum(char_image.getdata()) / (font_size * font_size) # type: ignore
-    char_grayscale_values[char] = grayscale_value
+    灰度值 = sum(字符图像.getdata()) / (字体大小 * 字体大小) # type: ignore
+    灰度列表[字符] = 灰度值
 
-sorted_chars = sorted(char_grayscale_values.items(), key=lambda x: x[1])
-sorted_chars.reverse()
-for char, grayscale_value in sorted_chars:
+字符表 = sorted(灰度列表.items(), key=lambda x: x[1])
+字符表.reverse()
+for char, 灰度值 in 字符表:
     print(char, end='')

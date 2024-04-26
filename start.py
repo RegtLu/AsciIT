@@ -1,6 +1,5 @@
 ﻿import subprocess
 from typing import Tuple
-import delete
 import core
 import os
 import play
@@ -44,7 +43,8 @@ if __name__ == "__main__":
     print('开始提取帧')
     if not os.path.exists(f'{缓存路径}/origin/'):
         os.mkdir(f'{缓存路径}/origin/')
-        subprocess.call(f'ffmpeg -i {args.video_path} -r {args.frame_rate} -vf "scale={控制台宽度}:{控制台高度}:force_original_aspect_ratio=decrease:flags=lanczos" {缓存路径}/origin/%d.jpg -hide_banner')
+        #subprocess.call(f'ffmpeg -i {args.video_path} -r {args.frame_rate} -vf "scale={控制台宽度}:{控制台高度}:force_original_aspect_ratio=decrease:flags=lanczos" {缓存路径}/origin/%d.jpg -hide_banner')
+        subprocess.call(f'ffmpeg -i {args.video_path} -r {args.frame_rate} {缓存路径}/origin/%d.jpg -hide_banner')
     print('所有帧已提取完毕')
     print('开始生成')
     if not os.path.exists(f'{缓存路径}/ascii/'):
