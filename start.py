@@ -40,7 +40,7 @@ if __name__ == "__main__":
     subprocess.call(f"ffmpeg -y -i {args.video_path} -vn ./cache/audio.mp3 -hide_banner")
     print('音频提取完毕')
     print('开始提取帧')
-    subprocess.call(f'ffmpeg -i {args.video_path} -r {args.frame_rate} -vf "scale={控制台宽度}:{控制台高度}:force_original_aspect_ratio=decrease:flags=bilinear" ./cache/raw/%d.jpg -hide_banner')
+    subprocess.call(f'ffmpeg -i {args.video_path} -r {args.frame_rate} -vf "scale={控制台宽度}:{控制台高度}:force_original_aspect_ratio=decrease:flags=neighbor" ./cache/raw/%d.jpg -hide_banner')
     print('所有帧已提取完毕')
     print('开始生成')
     start(控制台大小)
