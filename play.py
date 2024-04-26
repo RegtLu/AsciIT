@@ -7,39 +7,31 @@ import playsound
 
 def play(帧率):
     
-    playlist = []
+    帧数=0
 
     for root, dirs, files in os.walk('./cache/new'):
         for file in files:
             if file.endswith('.txt'):
-                with open(os.path.join(root, file), 'r', encoding='utf8') as f:
-                    content = f.read().strip('\n')
-                playlist.append((int(file.strip('.txt')), content))
+                帧数+=1
 
-    playlist = sorted(playlist, key=lambda x: x[0])
-
-    rate = 帧率
-    delta_time = 1 / rate
+    时间间隔 = 1 / 帧率
     os.system('cls')
     sys.stdout.write('\033[25l')
-    start_time = time.time()
+    开始时间 = time.time()
 
     playsound.playsound('./cache/audio.mp3',False)
-    for file, content in playlist:
-        sys.stdout.write(content)
-
-        current_time = time.time()
-        elapsed_time = current_time - start_time
-        expected_next_time = delta_time * file
-
-        if elapsed_time < expected_next_time:
-            time.sleep(expected_next_time - elapsed_time)
-
+    for file in range(帧数):
+        当前时间=time.time()
+        预期时间=开始时间+时间间隔*file
+        if 预期时间<当前时间:
+            continue
+        if 预期时间>当前时间:
+            time.sleep(预期时间-当前时间)
+        with open(os.path.join('./cache/new', str(file+1)+'.txt'), 'r', encoding='utf8') as f:
+            sys.stdout.write(f.read().strip('\n'))
         sys.stdout.write('\033[H')
 
-    end_time = time.time()
     os.system('cls')
-    print(f'总时长: {end_time - start_time}s')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='字符化播放器')
