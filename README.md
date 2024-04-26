@@ -65,9 +65,7 @@ RegtLu@regtluningtao@gmail.com
 - [ASCII Art Archive](https://www.asciiart.eu/)使我能够生成字符画标题
 
 <!-- links -->
-[your-project-path]:RegtLu/AsciIT
-[forks-shield]: https://img.shields.io/github/forks/RegtLu/AsciIT.svg?style=flat-square
-[forks-url]: https://github.com/RegtLu/AsciIT/network/members
+[project-path]:RegtLu/AsciIT
 [stars-shield]: https://unv-shield.librian.net/api/unv_shield?repo=RegtLu/AsciIT
 [stars-url]: https://github.com/RegtLu/AsciIT/stargazers
 [license-shield]: https://unv-shield.librian.net/api/unv_shield?txt=GPLv3
