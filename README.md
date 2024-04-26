@@ -62,7 +62,8 @@ RegtLu@regtluningtao@gmail.com
 
 ### 鸣谢
 - [FFmpeg](https://www.ffmpeg.org/)
-- [ASCII Art Archive](https://www.asciiart.eu/)使我能够生成字符画标题
+- [ASCII Art Archive](https://www.asciiart.eu/)
+  - 字符画标题
 
 <!-- links -->
 [project-path]:RegtLu/AsciIT
