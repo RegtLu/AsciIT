@@ -1,4 +1,5 @@
-﻿import os
+﻿import argparse
+import os
 import sys
 import time
 import playsound
@@ -41,4 +42,7 @@ def play(帧率):
     print(f'总时长: {end_time - start_time}s')
 
 if __name__ == "__main__":
-    play(30)
+    parser = argparse.ArgumentParser(description='字符化播放器')
+    parser.add_argument('frame_rate', type=float, default=30, help='帧率')
+    args = parser.parse_args()
+    play(args.frame_rate)
