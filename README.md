@@ -55,7 +55,7 @@
 >删除video文件夹
 
 ### 作者
-[RegtLu](regtluningtao@gmail.com)
+[RegtLu](mailto:regtluningtao@gmail.com)
 
 ### 版权说明
 该项目签署了GPLv3 授权许可，详情请参阅 [LICENSE](https://github.com/RegtLu/AsciIT/blob/master/LICENSE)
