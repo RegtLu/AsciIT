@@ -16,12 +16,6 @@ class AsciIt:
     def 处理(self, paths: Tuple[str, str]) -> None:
         图片路径, 输出路径 = paths
         image = Image.open(图片路径)
-        #控制台宽度, 控制台高度 = self.控制台大小
-        #宽,高=image.size
-        #if 控制台宽度/控制台高度>宽/高:
-        #    image = image.resize((int(控制台高度/高*宽), 控制台高度))
-        #else:
-        #    image = image.resize((控制台宽度, int(控制台宽度/宽*高)))
         字符序列 = self.字符(image)
         self.保存图片(image, 字符序列, 输出路径)
 

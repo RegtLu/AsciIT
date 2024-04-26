@@ -1,6 +1,5 @@
-cache/*
 .venv/*
 Pipfile
 Pipfile.lock
 *.mp4
-__pycache__
+*/
