@@ -3,7 +3,7 @@ import PIL.Image as Image
 
 
 class AsciIt:
-    def __init__(self, 字体: str = "sarasa-term-sc-nerd-regular.ttf", 字体大小: int = 8, 字符集: str = '%M@N#$0B&WR8DQHOmGK5AUbdEPX69Shk23VZaegpqwC4IotFYfnsuJlxz[]c{}7?TivyL()1/\\*j|<>r"!=+~^;:\'-,`._ ',控制台大小:Tuple[int,int]=(0,0)) -> None:
+    def __init__(self, 字体: str = "sarasa-term-sc-nerd-regular.ttf", 字体大小: int = 8, 字符集: str = '%MN@#0B&W8$RDHOQGmKAUd5bXPE69SkhV32aeZwqgpC4IotYunFfsJzlx{}c?Ti7][yLv1/\\|()*jr"><+~=!^;:\'-,.`_ ',控制台大小:Tuple[int,int]=(0,0)) -> None:
         self.队列: List[Tuple[str, str]] = []
         self.字体 = 字体
         self.字体大小 = 字体大小
@@ -16,12 +16,12 @@ class AsciIt:
     def 处理(self, paths: Tuple[str, str]) -> None:
         图片路径, 输出路径 = paths
         image = Image.open(图片路径)
-        控制台宽度, 控制台高度 = self.控制台大小
-        宽,高=image.size
-        if 控制台宽度/控制台高度>宽/高:
-            image = image.resize((int(控制台高度/高*宽), 控制台高度))
-        else:
-            image = image.resize((控制台宽度, int(控制台宽度/宽*高)))
+        #控制台宽度, 控制台高度 = self.控制台大小
+        #宽,高=image.size
+        #if 控制台宽度/控制台高度>宽/高:
+        #    image = image.resize((int(控制台高度/高*宽), 控制台高度))
+        #else:
+        #    image = image.resize((控制台宽度, int(控制台宽度/宽*高)))
         字符序列 = self.字符(image)
         self.保存图片(image, 字符序列, 输出路径)
 
