@@ -15,13 +15,8 @@ for i in range(len(ascii列表)):
     字符 = ascii列表[i]
     x = i*字体大小
     y = 0
-    
-    # 在图像上绘制字符
     绘图.text((x, y), 字符, font=字体, fill="white")
-    
-    # 截取字符图像
     字符图像 = image.crop((x, y, x + 字体大小, y + 字体大小))
-    # 计算字符的平均灰度值
     灰度值 = sum(字符图像.getdata()) / (字体大小 * 字体大小) # type: ignore
     灰度列表[字符] = 灰度值
 
