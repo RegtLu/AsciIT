@@ -51,9 +51,6 @@
 >`start.py video.mp4`
 >生成video.mp4的字符版本
 
->`delete.py video`
->删除video文件夹
-
 ### 作者
 [RegtLu](https://github.com/RegtLu)
 
