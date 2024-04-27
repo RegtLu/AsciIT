@@ -8,6 +8,7 @@ import subprocess
 import shutil
 from tqdm import tqdm
 from multiprocessing import Pool
+import hashlib
 
 def 获取控制台大小() -> Tuple[int, int]:
     columns, lines = shutil.get_terminal_size()
@@ -29,21 +30,21 @@ if __name__ == "__main__":
     parser.add_argument('video_path', type=str, help='视频路径')
     parser.add_argument('frame_rate', type=float, default=30, help='帧率')
     args = parser.parse_args()
-    音频路径=args.video_path.replace('.mp4','.mp3')
-    缓存路径=args.video_path.replace('.mp4','')
+    音频路径='sound.mp3'
+    hash=hashlib.sha256()
+    hash.update(args.video_path.replace('.mp4','').encode())
+    缓存路径=hash.hexdigest()[:16]
     控制台大小=获取控制台大小()
     控制台宽度, 控制台高度 = 控制台大小
-    ''''''
     if not os.path.exists(缓存路径):
         os.mkdir(缓存路径)
     print('开始提取音频')
     if not os.path.exists(f'{缓存路径}/{音频路径}'):
-        subprocess.call(f"ffmpeg -y -i {args.video_path} -vn {缓存路径}/{音频路径} -hide_banner")
+        subprocess.call(f'ffmpeg -y -i {args.video_path} -vn {缓存路径}/{音频路径} -hide_banner')
     print('音频提取完毕')
     print('开始提取帧')
     if not os.path.exists(f'{缓存路径}/origin/'):
         os.mkdir(f'{缓存路径}/origin/')
-        #subprocess.call(f'ffmpeg -i {args.video_path} -r {args.frame_rate} -vf "scale={控制台宽度}:{控制台高度}:force_original_aspect_ratio=decrease:flags=lanczos" {缓存路径}/origin/%d.jpg -hide_banner')
         subprocess.call(f'ffmpeg -i {args.video_path} -r {args.frame_rate} {缓存路径}/origin/%d.jpg -hide_banner')
     print('所有帧已提取完毕')
     print('开始生成')
