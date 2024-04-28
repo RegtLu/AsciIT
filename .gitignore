@@ -3,3 +3,4 @@ Pipfile
 Pipfile.lock
 *.mp4
 */
+*.ttf
