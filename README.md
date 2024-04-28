@@ -40,12 +40,12 @@
 
 
 ### 配置要求
-- [FFmpeg](https://www.ffmpeg.org/)
+- [FFmpeg 7.0](https://www.ffmpeg.org/)
 - [Python](https://www.python.org/)
   - Pillow
   - tqdm
   - playsound==1.2.2
-- [sarasa-term-sc-nerd-regular.ttf](https://github.com/laishulu/Sarasa-Term-SC-Nerd)(可替换)
+- [sarasa-term-sc-nerd-regular.ttf](https://github.com/laishulu/Sarasa-Term-SC-Nerd)(可替换为任意1:2等宽字体)
 
 ### 快速开始
 >`start.py video.mp4`

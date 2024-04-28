@@ -28,7 +28,7 @@ def start(控制台大小:Tuple[int,int]):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='字符化视频')
     parser.add_argument('video_path', type=str, help='视频路径')
-    parser.add_argument('frame_rate', type=float, default=30, help='帧率')
+    parser.add_argument('frame_rate', type=float, default=20, help='帧率')
     args = parser.parse_args()
     音频路径='sound.mp3'
     hash=hashlib.sha256()
@@ -40,12 +40,12 @@ if __name__ == "__main__":
         os.mkdir(缓存路径)
     print('开始提取音频')
     if not os.path.exists(f'{缓存路径}/{音频路径}'):
-        subprocess.call(f'ffmpeg -y -i {args.video_path} -vn {缓存路径}/{音频路径} -hide_banner')
+        subprocess.call(f'ffmpeg -threads 4 -i {args.video_path} -vn {缓存路径}/{音频路径} -hide_banner')
     print('音频提取完毕')
     print('开始提取帧')
     if not os.path.exists(f'{缓存路径}/origin/'):
         os.mkdir(f'{缓存路径}/origin/')
-        subprocess.call(f'ffmpeg -i {args.video_path} -r {args.frame_rate} {缓存路径}/origin/%d.jpg -hide_banner')
+        subprocess.call(f'ffmpeg -threads 4 -i {args.video_path} -r {args.frame_rate} {缓存路径}/origin/%d.jpg -hide_banner')
     print('所有帧已提取完毕')
     print('开始生成')
     if not os.path.exists(f'{缓存路径}/ascii/'):

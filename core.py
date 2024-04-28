@@ -1,9 +1,10 @@
 ﻿from typing import List, Tuple
 import PIL.Image as Image
+import sort
 
 
 class AsciIt:
-    def __init__(self, 字体: str = "sarasa-term-sc-nerd-regular.ttf", 字体大小: int = 8, 字符集: str = '%MN@#0B&W8$RDHOQGmKAUd5bXPE69SkhV32aeZwqgpC4IotYunFfsJzlx{}c?Ti7][yLv1/\\|()*jr"><+~=!^;:\'-,.`_ ',控制台大小:Tuple[int,int]=(0,0)) -> None:
+    def __init__(self, 字体: str = "sarasa-term-sc-nerd-regular.ttf", 字体大小: int = 8, 字符集: str = sort.获取ascii排序('sarasa-term-sc-nerd-regular.ttf'),控制台大小:Tuple[int,int]=(0,0)) -> None:
         self.队列: List[Tuple[str, str]] = []
         self.字体 = 字体
         self.字体大小 = 字体大小
@@ -35,7 +36,7 @@ class AsciIt:
                 char_index = int(gray_value / 255 * (len(self.字符集)))
                 if char_index >= len(self.字符集):
                     char_index = len(self.字符集) - 1
-                字符序列.append(self.字符集[char_index])
+                字符序列.append(self.字符集[char_index]*2)
         return 字符序列
 
     def 保存图片(self, Pillow对象: Image.Image, 字符序列: List[str], 输出路径: str) -> None:
