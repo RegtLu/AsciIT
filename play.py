@@ -1,6 +1,5 @@
 ﻿import argparse
 import os
-import shutil
 import sys
 import time
 import playsound
@@ -46,8 +45,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     with open(f'{args.视频位置}/info.txt','r') as f:
         控制台宽度,控制台高度,帧率=f.read().split(' ')
-    info控制台宽度,info控制台高度=shutil.get_terminal_size()
+    info控制台宽度,info控制台高度=os.get_terminal_size()
     if int(控制台宽度)!=info控制台宽度 or int(控制台高度)!=info控制台高度 :
-        print(f"文件控制台大小:  {shutil.get_terminal_size()[0]}x{shutil.get_terminal_size()[1]}\n当前控制台大小:  {控制台宽度}x{控制台高度}")
+        print(f"文件控制台大小:  {os.get_terminal_size()[0]}x{os.get_terminal_size()[1]}\n当前控制台大小:  {控制台宽度}x{控制台高度}")
         exit(1)
     play(int(帧率),args.视频位置)

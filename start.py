@@ -5,12 +5,11 @@ import os
 import play
 import argparse
 import subprocess
-import shutil
 from tqdm import tqdm
 from multiprocessing import Pool
 
 def 获取控制台大小() -> Tuple[int, int]:
-    columns, lines = shutil.get_terminal_size()
+    columns, lines = os.get_terminal_size()
     return (columns, lines)
 
 def start(控制台大小:Tuple[int,int]):
