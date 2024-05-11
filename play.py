@@ -1,4 +1,6 @@
-﻿import os
+﻿import argparse
+import os
+import shutil
 import sys
 import time
 import playsound
@@ -15,14 +17,14 @@ def 内容提供(缓存路径:str):
     yield False
     return
 
-def play(帧率:int,缓存路径:str,音频路径:str):
+def play(帧率:int,缓存路径:str):
     时间间隔 = 1 / 帧率
     当前帧=0
     os.system('cls')
     sys.stdout.write('\033[25l')
     开始时间 = time.time()
     内容提供器=内容提供(缓存路径)
-    playsound.playsound(f'{缓存路径}/{音频路径}',False)
+    playsound.playsound(f'{缓存路径}/sound.mp3',False)
     while True:
         当前帧+=1
         当前时间=time.time()
@@ -37,3 +39,15 @@ def play(帧率:int,缓存路径:str,音频路径:str):
         sys.stdout.write(内容)
         sys.stdout.write('\033[H')
     os.system('cls')
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='播放字符化视频')
+    parser.add_argument('视频位置', type=str, default='./cache', help='视频位置')
+    args = parser.parse_args()
+    with open(f'{args.视频位置}/info.txt','r') as f:
+        控制台宽度,控制台高度,帧率=f.read().split(' ')
+    info控制台宽度,info控制台高度=shutil.get_terminal_size()
+    if int(控制台宽度)!=info控制台宽度 or int(控制台高度)!=info控制台高度 :
+        print(f"文件控制台大小:  {shutil.get_terminal_size()[0]}x{shutil.get_terminal_size()[1]}\n当前控制台大小:  {控制台宽度}x{控制台高度}")
+        exit(1)
+    play(int(帧率),args.视频位置)
